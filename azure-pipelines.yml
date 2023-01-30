@@ -17,13 +17,13 @@ steps:
     docker cp postgres_container:/postgres-backup-plantext postgres-backup-plantext
   displayName: 'Dump databaseName: test-database'
 
-- task: CopyFiles@2
-  displayName: 'Copy file to Artifact: PostgresBackupDatabase\postgres-backup-plantext'
-  inputs:
-    Contents: ./postgres-backup-plantext
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+# - task: CopyFiles@2
+#   displayName: 'Copy file to Artifact: PostgresBackupDatabase\postgres-backup-plantext'
+#   inputs:
+#     Contents: ./postgres-backup-plantext
+#     TargetFolder: './postgres-backup-plantext-$(Build.ArtifactStagingDirectory)'
 
-- script: |
-    rm ./postgres-backup-plantext 
-    docker exec -it postgres_container rm ./postgres-backup-plantext
-  displayName: 'Delete temp file'
+# - script: |
+#     rm ./postgres-backup-plantext 
+#     docker exec -it postgres_container rm ./postgres-backup-plantext
+#   displayName: 'Delete temp file'
