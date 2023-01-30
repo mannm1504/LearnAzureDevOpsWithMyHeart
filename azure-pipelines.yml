@@ -12,7 +12,7 @@ pool:
   - agent.name -equals 'MSI-laptop'
 
 steps:
-- pwsh: |
+- powershell: |
     docker exec -it postgres_container pg_dump -h localhost -U postgres test-database -f postgres-backup-plantext
   displayName: 'Dump databaseName: test-database'
 
