@@ -4,6 +4,7 @@
 
 docker cp  postgres-backup.dump postgres_container:/postgres-backup.dump
 docker exec -i postgres_container pg_restore -U postgres -d postgres -Ft -C postgres-backup.dump
+docker exec -i postgres_container rm postgres-backup.dump
 
 # delete database
 docker exec -i postgres_container dropdb -U postgres test-database -f
