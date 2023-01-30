@@ -27,13 +27,13 @@ parameters:
   - name: BackupFileName 
     displayName: DatabaseName 
     type: string 
-    default: postgres-backup.sql
+    default: postgres-backup.dump
 
 steps:
 - script: |
-    docker exec -i postgres_container pg_dump -h ${{ parameters.PostgreSQLServer }} -U ${{ parameters.PostgreSQLUser }} ${{ parameters.DatabaseName }} -f ${{ parameters.BackupFileName }}
+    docker exec -i postgres_container pg_dump -h ${{ parameters.PostgreSQLServer }} -U ${{ parameters.PostgreSQLUser }} -Fc ${{ parameters.DatabaseName }} > ${{ parameters.BackupFileName }}
     docker cp postgres_container:/${{ parameters.BackupFileName }} ${{ parameters.BackupFileName }}
-  displayName: 'Dump databaseName: test-database'
+  displayName: 'Dumping ${{ parameters.DatabaseName }}'
 
 - task: PublishPipelineArtifact@1
   inputs:
