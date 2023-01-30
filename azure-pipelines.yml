@@ -12,6 +12,9 @@ pool:
   - agent.name -equals 'MSI-laptop'
 
 steps:
+- script: echo "alias docker='winpty docker'" >> ~/.bashrc
+  displayName: Setting env
+
 - script: |
     docker exec -it postgres_container  pg_dump -h localhost -U postgres test-database -f postgres-backup-plantext
     docker cp postgres_container:/postgres-backup-plantext 'C:\Users\Man Nguyen-Minh\Desktop\agent-data'
