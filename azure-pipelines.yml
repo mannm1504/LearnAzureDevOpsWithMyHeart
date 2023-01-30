@@ -11,18 +11,36 @@ pool:
   Demands:
   - agent.name -equals 'MSI-laptop'
 
+parameters:
+  - name: PostgreSQLServer 
+    displayName: PostgreSQLServer 
+    type: string 
+    default: localhost
+  - name: PostgreSQLUser 
+    displayName: PostgreSQLUser 
+    type: string 
+    default: postgres
+  - name: DatabaseName 
+    displayName: DatabaseName 
+    type: string 
+    default: test-database
+  - name: BackupFileName 
+    displayName: DatabaseName 
+    type: string 
+    default: postgres-backup.sql
+
 steps:
 - script: |
-    docker exec -i postgres_container pg_dump -h localhost -U postgres test-database -f postgres-backup-plantext
-    docker cp postgres_container:/postgres-backup-plantext postgres-backup-plantext
+    docker exec -i postgres_container pg_dump -h ${{ parameters.PostgreSQLServer }} -U ${{ parameters.PostgreSQLUser }} ${{ parameters.DatabaseName }} -f ${{ parameters.BackupFileName }}
+    docker cp postgres_container:/${{ parameters.BackupFileName }} ${{ parameters.BackupFileName }}
   displayName: 'Dump databaseName: test-database'
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)/postgres-backup-plantext
+    targetPath: $(System.DefaultWorkingDirectory)/${{ parameters.BackupFileName }}
     artifactName: PostgresBackupDatabase
 
 - script: |
-    del postgres-backup-plantext 
-    docker exec -i postgres_container rm ./postgres-backup-plantext
+    del ${{ parameters.BackupFileName }} 
+    docker exec -i postgres_container rm ./${{ parameters.BackupFileName }}
   displayName: 'Delete temp file'
