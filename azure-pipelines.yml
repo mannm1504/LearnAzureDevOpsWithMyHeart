@@ -23,6 +23,8 @@ steps:
     artifactName: PostgresBackupDatabase
 
 - script: |
+    pwd
+    ls -al
     del ./postgres-backup-plantext 
     docker exec -i postgres_container rm ./postgres-backup-plantext
   displayName: 'Delete temp file'
