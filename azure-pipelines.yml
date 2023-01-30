@@ -12,9 +12,18 @@ pool:
   - agent.name -equals 'MSI-laptop'
 
 steps:
-- script: echo 'Hello, world!'
-  displayName: 'Run a one-line script'
-
 - script: |
-    docker ps -a
-  displayName: 'get all running containers'
+    docker exec -it postgres_container  pg_dump -h localhost -U postgres test-database -f postgres-backup-plantext
+    docker cp postgres_container:/postgres-backup-plantext.
+  displayName: 'Dump databaseName: test-database'
+
+- task: CopyFiles@2
+  displayName: 'Copy file to Artifact: PostgresBackupDatabase'
+  inputs:
+    Contents: ./postgres-backup-plantext
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+# - script: |
+#     rm ./postgres-backup-plantext 
+#     docker exec -it postgres_container rm ./postgres-backup-plantext
+#   displayName: 'Delete temp file'
