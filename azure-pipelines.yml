@@ -12,9 +12,9 @@ pool:
   - agent.name -equals 'MSI-laptop'
 
 steps:
-- script: echo Hello, world!
+- script: echo 'Hello, world!'
   displayName: 'Run a one-line script'
 
-# - script: |
-#     docker ps -a
-#   displayName: 'get all running containers'
+- script: |
+    docker ps -a
+  displayName: 'get all running containers'
