@@ -14,13 +14,13 @@ pool:
 steps:
 - script: |
     docker exec -it postgres_container  pg_dump -h localhost -U postgres test-database -f postgres-backup-plantext
-    docker cp postgres_container:/postgres-backup-plantext .
+    docker cp postgres_container:/postgres-backup-plantext 'C:\Users\Man Nguyen-Minh\Desktop\agent-data'
   displayName: 'Dump databaseName: test-database'
 
 - task: CopyFiles@2
-  displayName: 'Copy file to Artifact: PostgresBackupDatabase'
+  displayName: 'Copy file to Artifact: PostgresBackupDatabase\postgres-backup-plantext'
   inputs:
-    Contents: ./postgres-backup-plantext
+    Contents: 'C:\Users\Man Nguyen-Minh\Desktop\agent-data'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 # - script: |
