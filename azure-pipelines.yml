@@ -31,7 +31,7 @@ parameters:
 
 steps:
 - script: |
-    docker exec -i postgres_container pg_dump -h ${{ parameters.PostgreSQLServer }} -U ${{ parameters.PostgreSQLUser }} -Fc ${{ parameters.DatabaseName }} -f ${{ parameters.BackupFileName }}
+    docker exec -i postgres_container pg_dump -h ${{ parameters.PostgreSQLServer }} -U ${{ parameters.PostgreSQLUser }} ${{ parameters.DatabaseName }} -f ${{ parameters.BackupFileName }}
     docker cp postgres_container:/${{ parameters.BackupFileName }} ${{ parameters.BackupFileName }}
   displayName: 'Dumping ${{ parameters.DatabaseName }}'
 
