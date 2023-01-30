@@ -14,7 +14,7 @@ pool:
 steps:
 - script: |
     docker exec -it postgres_container pg_dump -h localhost -U postgres test-database -f postgres-backup-plantext
-    docker cp postgres_container:/postgres-backup-plantext .
+    docker cp postgres_container:/postgres-backup-plantext postgres-backup-plantext
   displayName: 'Dump databaseName: test-database'
 
 - task: CopyFiles@2
@@ -23,7 +23,7 @@ steps:
     Contents: ./postgres-backup-plantext
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-# - script: |
-#     rm ./postgres-backup-plantext 
-#     docker exec -it postgres_container rm ./postgres-backup-plantext
-#   displayName: 'Delete temp file'
+- script: |
+    rm ./postgres-backup-plantext 
+    docker exec -it postgres_container rm ./postgres-backup-plantext
+  displayName: 'Delete temp file'
